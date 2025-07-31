@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@Model.Full_Name</title>
+</head>
+<body style="font-family: 'Calibri', Calibri, Arial, Helvetica, sans-serif; font-size:11pt; color:#000;">
+    <div style="text-align:center; margin-bottom:24px;">
+        <div style="font-size:18pt; font-weight:bold; letter-spacing:1px; font-family:Calibri,Arial,Helvetica,sans-serif;">
+            @Model.Full_Name
+        </div>
+        <div style="font-size:11pt; margin-top:8px;">
+            @if (!string.IsNullOrWhiteSpace(Model.Title)) {
+            <span>@Model.Title<br /></span>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Phone_Number)) {
+            <span>@Model.Phone_Number<br /></span>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Email)) {
+            <a href="mailto:@Model.Email" style="color:#2166c2; text-decoration:underline;">@Model.Email</a><br />
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.LinkedIn)) {
+            <a href="@Model.LinkedIn" style="color:#2166c2; text-decoration:underline;">@Model.LinkedIn</a><br />
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Location)) {
+            <span>@Model.Location</span>
+            }
+        </div>
+    </div>
+
+
+    <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Strengths</div>
+    <div>@Model.Strengths</div>
+    <div>
+        <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Skill Matrix</div>
+        <table style="border-collapse: collapse; width: 650px; font-size: 11pt; color: #000;">
+            <tr>
+                <th style="background-color: #7030A0; color: #fff; font-weight: bold; text-align: center; font-size: 12pt; border: 1px solid #7030A0; padding: 6px; ">Skill Area</th>
+                <th style="background-color: #7030A0; color: #fff; font-weight: bold; text-align: center; font-size: 12pt; border: 1px solid #7030A0; padding: 6px; ">Years of Exp</th>
+                <th style="background-color: #7030A0; color: #fff; font-weight: bold; text-align: center; font-size: 12pt; border: 1px solid #7030A0; padding: 6px; ">Latest 3 Clients / Engagements</th>
+                <th style="background-color: #7030A0; color: #fff; font-weight: bold; text-align: center; font-size: 12pt; border: 1px solid #7030A0; padding: 6px; ">Position/Level</th>
+            </tr>
+            @foreach (var skill in Model.Skill_Matrix) {
+            <tr>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px; background-color:#fff;">@skill.Skill</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px; background-color:#fff;">@skill.Years</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px; background-color:#fff;">@skill.Clients</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px; background-color:#fff;">@skill.Level</td>
+            </tr>
+            }
+        </table>
+    </div>
+
+    @if (Model.Education != null && Model.Education.Count > 0) {
+    <div>
+        <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Education/Certifications</div>
+        <table>
+            <tr>
+                <td style="background-color:#702F8A;color:white;font-weight:bold;padding:5px;width:150px;">Education:</td>
+                <td style="padding:5px; border:1px solid #c6b6e5;text-align:left; background-color: #fff;">
+                    @foreach (var item in Model.Education) {
+                    var edu = (dynamic)item;
+                    @:• @edu.Institution | @edu.Degree
+                    if (!string.IsNullOrWhiteSpace((string)edu.Year)) {
+                    @: ( @edu.Year )
+                    }
+                    <br />
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+    }
+
+    @if (Model.Key_Achievements != null && Model.Key_Achievements.Count > 0) {
+    <div>
+        <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Key Achievements</div>
+        <ul style="font-size:11pt; color:#000;">
+            @foreach (var ach in Model.Key_Achievements) {
+            <li>@ach</li>
+            }
+        </ul>
+    </div>
+    }
+
+    @if (Model.Projects != null && Model.Projects.Count > 0) {
+    <div>
+        <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Projects</div>
+        @foreach (var proj in Model.Projects) {
+        <div>
+            <div style="font-weight:bold; font-size:12pt; color:#000;">
+                @proj.Title
+            </div>
+            @if (!string.IsNullOrEmpty((string)proj.Duration) || !string.IsNullOrEmpty((string)proj.Company)) {
+            <div style="font-size:11pt; color:#000;">
+                @(proj.Duration ?? "")
+                @if (!string.IsNullOrEmpty((string)proj.Company)) {
+                @((!string.IsNullOrEmpty((string)proj.Duration) ? " | " : "") + proj.Company)
+                }
+            </div>
+            }
+            <div style="font-size:11pt; color:#000;">
+                @Raw(proj.Description) <!-- This will render HTML inside Description! -->
+            </div>
+
+        </div>
+        }
+    </div>
+    }
+
+    @if (Model.Certifications != null && Model.Certifications.Count > 0) {
+    <div>
+        <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Certifications</div>
+        <ul style="font-size:11pt; color:#000;">
+            @foreach (var cert in Model.Certifications) {
+            <li>@cert</li>
+            }
+        </ul>
+    </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Model.Software_Training)) {
+    <div>
+        <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Software Training</div>
+        <div style="font-size:11pt; color:#000;">@Model.Software_Training</div>
+    </div>
+    }
+
+    @if (Model.References != null && Model.References.Count > 0) {
+    <div>
+        <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">References</div>
+        <table style="border-collapse:collapse; width:100%; font-size:11pt; color:#000;">
+            <tr>
+                <th style="background-color:#8b6cc9; color:#fff; font-weight:bold; text-align:center; font-size:12pt; border:1px solid #8b6cc9; padding:6px;">S.no</th>
+                <th style="background-color:#8b6cc9; color:#fff; font-weight:bold; text-align:center; font-size:12pt; border:1px solid #8b6cc9; padding:6px;">Name</th>
+                <th style="background-color:#8b6cc9; color:#fff; font-weight:bold; text-align:center; font-size:12pt; border:1px solid #8b6cc9; padding:6px;">Title</th>
+                <th style="background-color:#8b6cc9; color:#fff; font-weight:bold; text-align:center; font-size:12pt; border:1px solid #8b6cc9; padding:6px;">Company Name</th>
+                <th style="background-color:#8b6cc9; color:#fff; font-weight:bold; text-align:center; font-size:12pt; border:1px solid #8b6cc9; padding:6px;">Address</th>
+                <th style="background-color:#8b6cc9; color:#fff; font-weight:bold; text-align:center; font-size:12pt; border:1px solid #8b6cc9; padding:6px;">Telephone</th>
+                <th style="background-color:#8b6cc9; color:#fff; font-weight:bold; text-align:center; font-size:12pt; border:1px solid #8b6cc9; padding:6px;">Email</th>
+            </tr>
+            @for (int sn = 0; sn < Model.References.Count; sn++) {
+            var refItem = Model.References[sn];
+            <tr>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px;">@(sn + 1)</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px;">@refItem.Name</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px;">@refItem.Title</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px;">@refItem.Company_Name</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px;">@refItem.Address</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px;">@refItem.Telephone</td>
+                <td style="border:1px solid #c6b6e5; text-align:center; padding:6px;">@refItem.Email</td>
+            </tr>
+            }
+        </table>
+    </div>
+    }
+
+    <!-- Footer -->
+    <div style="font-size:10pt; color:#888; text-align:center; margin-top:32px;">
+        www.quadranttechnologies.com &nbsp;&nbsp;|&nbsp;&nbsp; 5020, 148th Avenue NE, Suite-250, Redmond, WA-98052
+    </div>
+
+
+</body>
+</html>
