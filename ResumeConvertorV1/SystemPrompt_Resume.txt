@@ -29,13 +29,35 @@ For each education entry:
     - "Year": extract graduation year if mentioned, else leave as an empty string.
 Return in the "Education" array, preserving order from most recent to oldest.
 
-In the resume provided, extract all project-related information. Look under sections titled "Projects", "Project Experience", or "Experience" where project details may be described.
-For each project, extract:
-- "Title": Name of the project.
-- "Company": If academic, use institution name; if at work, use company; else leave blank.
-- "Duration": The time period, if mentioned.
-- "Technologies": List all programming languages, frameworks, or tools associated with the project (as listed near the project or in the description).
-- "Description": Retain the original bullet points and line breaks as HTML: use <ul><li>...</li></ul> for bullets, <br> for new lines. Do not summarize, rewrite, or flatten lines. Use candidate's original wording.
+Instructions:
+Extract all project-related information from the resume.
+Do not rely only on section headers like "Projects", "Project Experience", or "Experience". Instead, look for patterns such as:
+- A **project title** followed by a **time duration** (e.g., "2021 – Present") and a **company name**
+- Project entries that begin with a **bold or capitalized title**, followed by:
+    - A **date range**
+    - A **company name**
+    - One or more bullet points or lines describing work
+Also handle cases where **project activities are embedded inside job roles** (typically under "Professional Experience") even if they don’t have a clear project title. These are usually identifiable by:
+    - Bullet points starting with verbs like *Developed, Designed, Built, Implemented, Integrated, Deployed, Managed*
+    - Mentions of technologies, frameworks, and tools
+    - Responsibilities that reflect individual project contributions
+In such cases:
+    - Use the **job title combined with a brief technology keyword** as the "Title" (e.g., “Java Microservices – Kafka/Docker Project”)
+    - Use the **Company** and **Duration** from the parent job experience
+    - Combine relevant bullets as the "Description"
+    - Extract "Technologies" from tools mentioned in those bullets
+Guidelines:
+For each project, extract the following fields:
+    - **"Title"**: Use the bold/capitalized title. If not available, construct a concise title using job role and tech context.
+    - **"Company"**: The organization or institution
+    - **"Duration"**: Time period (e.g., "2015 – 2017", "Aug 2020 to Jun 2022")
+    - **"Technologies"**: List all tools, programming languages, libraries, or frameworks mentioned
+    - **"Description"**: Preserve the original formatting. Use `<ul><li>...</li></ul>` for bullets, `<br>` for line breaks. Do not rephrase or hallucinate or use your own words. Keep the description from source as it is. Maintain candidate’s exact wording.
+Do not skip projects even if:
+    - They are not in a "Projects" section
+    - They appear inside "Experience" or "Professional Summary"
+    - They don’t use bullets — preserve formatting using `<br>`
+
 
 Return strict JSON in this format:
 {

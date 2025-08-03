@@ -5,30 +5,43 @@
     <title>@Model.Full_Name</title>
 </head>
 <body style="font-family: 'Calibri', Calibri, Arial, Helvetica, sans-serif; font-size:11pt; color:#000;">
-    <div style="text-align:center; margin-bottom:24px;">
-        <div style="font-size:18pt; font-weight:bold; letter-spacing:1px; font-family:Calibri,Arial,Helvetica,sans-serif;">
-            @Model.Full_Name
-        </div>
-        <div style="font-size:11pt; margin-top:8px;">
-            @if (!string.IsNullOrWhiteSpace(Model.Title)) {
-            <span>@Model.Title<br /></span>
-            }
-            @if (!string.IsNullOrWhiteSpace(Model.Phone_Number)) {
-            <span>@Model.Phone_Number<br /></span>
-            }
-            @if (!string.IsNullOrWhiteSpace(Model.Email)) {
-            <a href="mailto:@Model.Email" style="color:#2166c2; text-decoration:underline;">@Model.Email</a><br />
-            }
-            @if (!string.IsNullOrWhiteSpace(Model.LinkedIn)) {
-            <a href="@Model.LinkedIn" style="color:#2166c2; text-decoration:underline;">@Model.LinkedIn</a><br />
-            }
-            @if (!string.IsNullOrWhiteSpace(Model.Location)) {
-            <span>@Model.Location</span>
-            }
-        </div>
-    </div>
+    <table style="width:100%; border:none; margin-bottom:24px;">
+        <tr>
+            <!-- Left Padding Column -->
+            <td style="width:15%;border:none;">&nbsp;</td>
 
+            <!-- Centered Name and Contact Info -->
+            <td style="width: 70%;border: none; text-align: center;">
+                <div style="font-size:18pt; font-weight:bold; letter-spacing:1px; font-family:Calibri,Arial,Helvetica,sans-serif;">
+                    @Model.Full_Name
+                </div>
+                <div style="font-size:11pt; margin-top:8px;">
+                    @if (!string.IsNullOrWhiteSpace(Model.Title)) {
+                    <span>@Model.Title<br /></span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Phone_Number)) {
+                    <span>@Model.Phone_Number<br /></span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Email)) {
+                    <a href="mailto:@Model.Email" style="color:#2166c2; text-decoration:underline;">@Model.Email</a><br />
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.LinkedIn)) {
+                    <a href="@Model.LinkedIn" style="color:#2166c2; text-decoration:underline;">@Model.LinkedIn</a><br />
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Location)) {
+                    <span>@Model.Location</span>
+                    }
+                </div>
+            </td>
 
+            <!-- Right-Aligned Logo -->
+            <td style="width: 15%; text-align: right; vertical-align: top; border: none; ">
+                @if (!string.IsNullOrEmpty(Model.LogoBase64)) {
+                <img src="data:image/jpeg;base64,@Model.LogoBase64" style="height:60px;" alt="Logo" />
+                }
+            </td>
+        </tr>
+    </table>
     <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Strengths</div>
     <div>@Model.Strengths</div>
     <div>

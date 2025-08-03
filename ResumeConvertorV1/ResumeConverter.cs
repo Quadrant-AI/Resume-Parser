@@ -24,6 +24,7 @@ namespace ResumeConvertorV1
         private readonly string PromptFile = string.Empty; // Path to prompt for GPT
         private readonly string OutputDirectory = string.Empty; // Locaion of target files
         private readonly bool Debug; //Flag to deicde whether or not we will print messages at every step
+        private readonly string LogoFile;
 
         /// <summary>
         /// Constructor
@@ -43,6 +44,7 @@ namespace ResumeConvertorV1
             TemplateFile = config["ResumeConvertor:TemplateFile"];
             PromptFile = config["ResumeConvertor:PromptFile"];
             OutputDirectory = config["ResumeConvertor:OutputDirectory"] ?? "Output";
+            LogoFile = config["ResumeConvertor:LogoFile"];
             Debug = debug;
 
             if (string.IsNullOrEmpty(OpenAiKey))
@@ -201,6 +203,13 @@ namespace ResumeConvertorV1
         /// <returns>Anonymous object matching template keys</returns>
         private object TransformJsonKeys(JObject json)
         {
+            // Load the logo file as base64 (adjust path if needed)
+            string logoPath = Path.Combine("Images", LogoFile);
+            string logoBase64 = File.Exists(logoPath)
+                ? Convert.ToBase64String(File.ReadAllBytes(logoPath))
+                : "";
+
+
             return new
             {
                 Full_Name = json["Full Name"]?.ToString() ?? "",
@@ -216,7 +225,8 @@ namespace ResumeConvertorV1
                 Projects = json["Projects"]?.ToObject<List<dynamic>>() ?? new List<dynamic>(),
                 Certifications = json["Certifications"]?.ToObject<List<string>>() ?? new List<string>(),
                 Software_Training = json["Software_Training"]?.ToString() ?? "",
-                References = json["References"]?.ToObject<List<dynamic>>() ?? new List<dynamic>()
+                References = json["References"]?.ToObject<List<dynamic>>() ?? new List<dynamic>(),
+                LogoBase64 = logoBase64
             };
         }
 

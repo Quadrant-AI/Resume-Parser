@@ -34,7 +34,7 @@ class Program
         }
 
         var totalStopwatch = Stopwatch.StartNew();
-        var converter = new ResumeConverter(debug: false);
+        var converter = new ResumeConverter(debug: true);
 
         foreach (string file in validFiles)
         {
