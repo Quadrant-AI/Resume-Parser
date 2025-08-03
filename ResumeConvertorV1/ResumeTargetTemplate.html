@@ -43,7 +43,9 @@
         </tr>
     </table>
     <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Strengths</div>
-    <div>@Model.Strengths</div>
+    <div>
+        @Raw(Model.Strengths)
+   </div>
     <div>
         <div style="font-size:14pt; font-weight:bold; text-decoration:underline; color:#000;">Skill Matrix</div>
         <table style="border-collapse: collapse; width: 650px; font-size: 11pt; color: #000;">

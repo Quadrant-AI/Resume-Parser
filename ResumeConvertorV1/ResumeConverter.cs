@@ -68,6 +68,10 @@ namespace ResumeConvertorV1
 
             // Step 1: Read text from PDF or TXT file
             string resumeText = ReadResume(resumeFilePath);
+            if (Debug)
+            {
+                Console.WriteLine(resumeText);
+            }
 
             // Step 2: Use OpenAI to parse resume text into structured JSON
             string gptOutput = await ParseResumeWithGptAsync(resumeText);
